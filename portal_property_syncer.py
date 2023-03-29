@@ -28,7 +28,7 @@ from hubspot.crm.properties import PropertyGroup
 class Portal:
     portalId: int
     name: str
-    apiKey: str
+    accessToken: str
     apiClient: Optional[HubSpot] = None
 
 
@@ -50,17 +50,20 @@ class ResultMessages:
 
 
 def preparePortal(portal: Portal) -> None:
-    if not portal.apiKey:
+    if not portal.accessToken:
         raise ValueError(
             f'Missing API key for portal {portal.name}',
         )
+    
+    headers = {'Authorization': f'Bearer {portal.accessToken}', 'Content-Type': 'application/json'}
     response = requests.get(
-        url=f'https://api.hubapi.com/integrations/v1/me?hapikey={portal.apiKey}',
+        url='https://api.hubapi.com/integrations/v1/me',
+        headers=headers
     )
     readPortalId = response.json()['portalId']
     assert readPortalId == portal.portalId
 
-    apiClient = HubSpot(api_key=portal.apiKey)
+    apiClient = HubSpot(access_token=portal.accessToken)
     portal.apiClient = apiClient
 
 
@@ -280,28 +283,28 @@ if __name__ == "__main__":
     portal1Portal = Portal(
         portalId=111111,
         name="portal1",
-        apiKey="",
+        accessToken="",
     )
     preparePortal(portal1Portal)
 
     portal2Portal = Portal(
         portalId=222222,
         name="portal2",
-        apiKey="",
+        accessToken="",
     )
     preparePortal(portal2Portal)
 
     portal3Portal = Portal(
         portalId=3333333,
         name="portal3",
-        apiKey=""
+        accessToken=""
     )
     preparePortal(portal3Portal)
 
     portal4Portal = Portal(
         portalId=444444,
         name="portal4",
-        apiKey="",
+        accessToken="",
     )
     preparePortal(portal4Portal)
 
