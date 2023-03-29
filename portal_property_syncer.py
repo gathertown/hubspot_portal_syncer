@@ -281,47 +281,32 @@ def createPropertyBasedOnOtherProperty(
 if __name__ == "__main__":
 
     portal1Portal = Portal(
-        portalId=111111,
-        name="portal1",
-        accessToken="",
+        portalId=9420218,
+        name="Gather Prod",
+        accessToken="[ACCESS_TOKEN]",
     )
     preparePortal(portal1Portal)
 
     portal2Portal = Portal(
-        portalId=222222,
-        name="portal2",
-        accessToken="",
+        portalId=23426560,
+        name="Gather Test",
+        accessToken="[ACCESS_TOKEN]",
     )
     preparePortal(portal2Portal)
 
-    portal3Portal = Portal(
-        portalId=3333333,
-        name="portal3",
-        accessToken=""
-    )
-    preparePortal(portal3Portal)
-
-    portal4Portal = Portal(
-        portalId=444444,
-        name="portal4",
-        accessToken="",
-    )
-    preparePortal(portal4Portal)
-
     portalPairs = [
         (portal1Portal, portal2Portal),
-        (portal2Portal, portal3Portal),
-        (portal3Portal, portal4Portal),
     ]
 
     allMessages = []
     for currentSourcePortal, currentTargetPortal, in portalPairs:
 
         for currentObjectType in [
+            # we only use Contact objects in Hubspot
             "contact",
-            "company",
-            "deal",
-            "ticket",
+            # "company",
+            # "deal",
+            # "ticket",
         ]:
             currentResultMessages = syncProperties(
                 objectType=currentObjectType,

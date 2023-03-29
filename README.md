@@ -1,3 +1,30 @@
+# Gather note
+
+@JoshConley and @AndrewSouthpaw forked from the original repo. The original script uses API keys, which [are now deprecated](https://developers.hubspot.com/docs/api/migrate-an-api-key-integration-to-a-private-app), so we had to tweak the code a bit.
+
+## Usage
+
+In the `portal_property_syncer.py`, near the bottom you'll need to add `accessToken` info for both `portal1Portal` and `portal2Portal`:
+
+For `portal1Portal.accessToken`, run this command to grab the key:
+
+```
+$ doppler -p gather-town -c prod_http secrets get PROD_SERVER_HUBSPOT_API_KEY --raw --plain
+```
+
+For `portal2Portal.accessToken`, run this command to grab the key:
+
+```
+$ doppler -p gather-town -c dev_http secrets get DEV_SERVER_HUBSPOT_API_KEY --raw --plain
+```
+
+From the repo root, run:
+
+```
+$ pip3 install -r requirements.txt
+$ python3 portal_property_syncer.py
+```
+
 # HubSpot Portal Syncer
 
 Collection of simple tools that allow syncing several HubSpot portal together.
